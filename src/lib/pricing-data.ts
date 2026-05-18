@@ -96,8 +96,8 @@ export const CATEGORY_LABELS: Record<Decoration['category'], string> = {
 };
 
 export const SALON_INFO = {
-  name: 'Cotizador de Aby',
-  tagline: 'Belleza en tus manos',
+  name: 'Nails by Aby',
+  tagline: 'Estudio profesional de uñas',
   phone: '',
   email: '',
   instagram: '',

@@ -20,7 +20,7 @@ export function ServiceSelector() {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-9">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {services.map(({ id, label, description, icon: Icon, note }) => {
           const selected = serviceType === id;
@@ -28,7 +28,7 @@ export function ServiceSelector() {
             <button
               key={id}
               onClick={() => handleServiceSelect(id)}
-              className={`group relative p-6 rounded-2xl border text-left transition-all duration-200 overflow-hidden ${
+              className={`group relative p-6 pb-7 rounded-2xl border text-left transition-all duration-200 overflow-hidden flex flex-col min-h-[15rem] ${
                 selected
                   ? 'border-mauve-600 bg-brand-gradient text-white shadow-petal'
                   : 'border-lav-200 bg-lav-50/60 hover:border-mauve-300 hover:bg-white hover:shadow-soft'
@@ -36,7 +36,7 @@ export function ServiceSelector() {
             >
               {selected && (
                 <div className="absolute top-4 right-4 w-6 h-6 bg-white/25 rounded-full flex items-center justify-center">
-                  <Check size={13} className="text-white" />
+                  <Check size={13} className="text-white" strokeWidth={2.5} />
                 </div>
               )}
               <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 transition-all ${
@@ -44,13 +44,15 @@ export function ServiceSelector() {
               }`}>
                 <Icon size={22} className={selected ? 'text-white' : 'text-mauve-600'} />
               </div>
-              <p className={`font-semibold text-base mb-1.5 ${selected ? 'text-white' : 'text-warm-800'}`}>{label}</p>
-              <p className={`text-sm leading-relaxed mb-4 ${selected ? 'text-white/85' : 'text-warm-500'}`}>{description}</p>
-              <span className={`text-xs font-medium px-3 py-1.5 rounded-full inline-block ${
-                selected ? 'bg-white/20 text-white' : 'bg-champagne-100 text-champagne-600'
-              }`}>
-                {note}
-              </span>
+              <p className={`font-semibold text-base mb-2 ${selected ? 'text-white' : 'text-warm-800'}`}>{label}</p>
+              <p className={`text-sm leading-relaxed mb-5 ${selected ? 'text-white/85' : 'text-warm-500'}`}>{description}</p>
+              <div className="mt-auto">
+                <span className={`text-[11px] font-medium px-3 py-1.5 rounded-full inline-block ${
+                  selected ? 'bg-white/20 text-white' : 'bg-champagne-100 text-champagne-600'
+                }`}>
+                  {note}
+                </span>
+              </div>
             </button>
           );
         })}

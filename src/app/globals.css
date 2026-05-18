@@ -254,5 +254,5 @@ input[type="number"] { -moz-appearance: textfield; }
 
 /* Reserva inferior para nav mobile + summary mobile */
 @media (max-width: 1023px) {
-  .pb-mobile-stack { padding-bottom: 22rem; }
+  .pb-mobile-stack { padding-bottom: 34rem; }
 }

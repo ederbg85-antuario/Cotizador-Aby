@@ -39,7 +39,7 @@ export default function Sidebar() {
 
       <div className="border-t border-lav-100/60 px-7 py-6">
         <p className="font-display text-sm text-warm-500 leading-tight">
-          Cotizador de <span className="italic text-mauve-700">Aby</span>
+          Nails by <span className="italic text-mauve-700">Aby</span>
         </p>
         <p className="text-[10px] text-warm-400 mt-1 tracking-wider uppercase">Estudio profesional</p>
       </div>

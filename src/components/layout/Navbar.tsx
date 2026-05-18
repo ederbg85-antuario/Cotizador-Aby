@@ -8,14 +8,16 @@ import { Menu, X, Calculator, CalendarDays, User } from "lucide-react";
 function Logo({ size = "md" }: { size?: "sm" | "md" }) {
   return (
     <div className="flex items-center gap-3">
-      <div className={`${size === "md" ? "w-11 h-11" : "w-10 h-10"} rounded-2xl bg-brand-gradient flex items-center justify-center shadow-petal`}>
+      <div className={`${size === "md" ? "w-11 h-11" : "w-10 h-10"} rounded-2xl bg-brand-gradient flex items-center justify-center shadow-petal flex-shrink-0`}>
         <span className="font-display italic text-white text-lg font-bold">A</span>
       </div>
       <div className="leading-none">
-        <p className={`font-display ${size === "md" ? "text-xl" : "text-lg"} text-warm-800 font-semibold tracking-tight`}>
-          Cotizador de <span className="italic text-mauve-700">Aby</span>
+        <p className={`font-display ${size === "md" ? "text-xl" : "text-lg"} text-warm-800 font-semibold tracking-tight whitespace-nowrap`}>
+          Nails by <span className="italic text-mauve-700">Aby</span>
         </p>
-        <p className="text-[10px] text-warm-400 font-medium tracking-[0.18em] uppercase mt-1">Servicios de manicura</p>
+        <p className="text-[10px] text-warm-400 font-medium tracking-[0.18em] uppercase mt-1.5">
+          Cotizador profesional
+        </p>
       </div>
     </div>
   );
@@ -37,23 +39,24 @@ export default function Navbar() {
     <>
       {/* Desktop */}
       <nav className="hidden md:block glass sticky top-0 z-40 border-b border-lav-100/60">
-        <div className="container-app flex items-center h-20">
-          <Link href="/" className="flex-1">
+        <div className="container-app flex items-center h-20 gap-8">
+          <Link href="/" className="flex-shrink-0">
             <Logo />
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex-1" />
+          <div className="flex items-center gap-1">
             {navItems.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-2.5 px-5 h-11 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   isActive(href)
                     ? "bg-brand-gradient text-white shadow-petal"
                     : "text-warm-600 hover:text-mauve-700 hover:bg-lav-100/60"
                 }`}
               >
-                <Icon size={16} />
-                {label}
+                <Icon size={16} strokeWidth={isActive(href) ? 2.2 : 1.8} />
+                <span>{label}</span>
               </Link>
             ))}
           </div>

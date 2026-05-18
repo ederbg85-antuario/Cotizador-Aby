@@ -26,7 +26,7 @@ export default function LoginForm() {
           <span className="font-display italic text-white text-4xl font-bold">A</span>
         </div>
         <h1 className="font-display text-3xl md:text-4xl text-warm-800 tracking-tight">
-          Cotizador de <span className="italic text-brand-gradient">Aby</span>
+          Nails by <span className="italic text-brand-gradient">Aby</span>
         </h1>
         <p className="text-xs text-warm-400 mt-3 tracking-[0.18em] uppercase">Panel de administración</p>
       </div>

@@ -16,284 +16,354 @@ interface PDFQuoteData {
   date: string;
 }
 
-// Brand colors
-const COLORS = {
-  pink: { r: 244, g: 114, b: 182 }, // #f472b6
-  darkPink: { r: 219, g: 39, b: 119 }, // #db2777
-  lightPink: { r: 253, g: 242, b: 248 }, // #fdf2f8
-  gold: { r: 212, g: 165, b: 116 }, // #d4a574
-  darkText: { r: 74, g: 48, b: 64 }, // #4a3040
-  lightText: { r: 120, g: 90, b: 105 }, // #765a69
-  white: { r: 255, g: 255, b: 255 },
+const BRAND = 'Nails by Aby';
+const TAGLINE = 'Estudio profesional de uñas';
+
+// Paleta del PDF (sincronizada con la web)
+const C = {
+  petal:        [200, 66, 90]   as [number, number, number], // #c8425a — primario
+  petalDark:    [139, 36, 58]   as [number, number, number], // #8b243a
+  petalSoft:    [251, 229, 232] as [number, number, number], // #fbe5e8
+  cream:        [253, 249, 244] as [number, number, number], // #fdf9f4
+  creamWarm:    [247, 237, 224] as [number, number, number], // #f7ede0
+  champagne:    [210, 159, 48]  as [number, number, number], // #d29f30
+  champagneSoft:[253, 248, 236] as [number, number, number], // #fdf8ec
+  stone800:     [26, 24, 16]    as [number, number, number], // #1a1810
+  stone700:     [47, 43, 32]    as [number, number, number], // #2f2b20
+  stone500:     [115, 107, 86]  as [number, number, number], // #736b56
+  stone400:     [156, 148, 127] as [number, number, number], // #9c947f
+  stone200:     [232, 227, 216] as [number, number, number], // #e8e3d8
+  white:        [255, 255, 255] as [number, number, number],
 };
 
-type ColorKey = keyof typeof COLORS;
+const setFill = (pdf: jsPDF, c: [number, number, number]) => pdf.setFillColor(c[0], c[1], c[2]);
+const setText = (pdf: jsPDF, c: [number, number, number]) => pdf.setTextColor(c[0], c[1], c[2]);
+const setDraw = (pdf: jsPDF, c: [number, number, number]) => pdf.setDrawColor(c[0], c[1], c[2]);
 
-function setColor(pdf: jsPDF, colorKey: ColorKey) {
-  const color = COLORS[colorKey];
-  pdf.setTextColor(color.r, color.g, color.b);
-}
-
-function setFillColor(pdf: jsPDF, colorKey: ColorKey) {
-  const color = COLORS[colorKey];
-  pdf.setFillColor(color.r, color.g, color.b);
+function fmt(n: number): string {
+  return `$${n.toFixed(0)} MXN`;
 }
 
 export function generateQuotePDF(data: PDFQuoteData): jsPDF {
-  const pdf = new jsPDF({
-    orientation: 'portrait',
-    unit: 'mm',
-    format: 'a4',
-  });
+  const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = pdf.internal.pageSize.getWidth();
+  const H = pdf.internal.pageSize.getHeight();
+  const M = 18; // margen lateral
+  const contentW = W - M * 2;
+  let y = 0;
 
-  const pageWidth = pdf.internal.pageSize.getWidth();
-  const pageHeight = pdf.internal.pageSize.getHeight();
-  const margin = 15;
-  let yPosition = margin;
+  // =================================================================
+  // HEADER — banda superior con marca
+  // =================================================================
+  setFill(pdf, C.petalDark);
+  pdf.rect(0, 0, W, 48, 'F');
 
-  // ===== HEADER =====
-  // Decorative top pink bar
-  setFillColor(pdf, 'darkPink');
-  pdf.rect(0, 0, pageWidth, 8, 'F');
+  // Acento champagne lateral
+  setFill(pdf, C.champagne);
+  pdf.rect(0, 48, W, 1.2, 'F');
 
-  // Title
-  pdf.setFontSize(28);
-  pdf.setFont('helvetica', 'bold');
-  setColor(pdf, 'darkPink');
-  pdf.text('Cotizador de Aby', pageWidth / 2, 20, { align: 'center' });
+  // Logo circle "A"
+  setFill(pdf, C.white);
+  pdf.circle(M + 7, 24, 7, 'F');
+  setText(pdf, C.petalDark);
+  pdf.setFont('times', 'bolditalic');
+  pdf.setFontSize(18);
+  pdf.text('A', M + 7, 27.5, { align: 'center' });
 
-  // Subtitle
-  pdf.setFontSize(12);
+  // Marca
+  setText(pdf, C.white);
+  pdf.setFont('times', 'italic');
+  pdf.setFontSize(22);
+  pdf.text(BRAND, M + 18, 23);
+
   pdf.setFont('helvetica', 'normal');
-  setColor(pdf, 'lightText');
-  pdf.text('Cotización de Servicios', pageWidth / 2, 27, { align: 'center' });
+  pdf.setFontSize(8.5);
+  setText(pdf, C.petalSoft);
+  pdf.text(TAGLINE.toUpperCase(), M + 18, 30, { charSpace: 1.2 });
 
-  // Date
-  pdf.setFontSize(10);
-  setColor(pdf, 'lightText');
-  pdf.text(`Fecha: ${data.date}`, pageWidth / 2, 33, { align: 'center' });
-
-  yPosition = 38;
-
-  // Decorative line
-  setFillColor(pdf, 'pink');
-  pdf.rect(margin, yPosition, pageWidth - 2 * margin, 0.8, 'F');
-  yPosition += 3;
-
-  // ===== CLIENT INFO SECTION =====
-  setFillColor(pdf, 'lightPink');
-  pdf.rect(margin, yPosition, pageWidth - 2 * margin, 24, 'F');
-
-  setColor(pdf, 'darkPink');
-  pdf.setFontSize(11);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('INFORMACIÓN DEL CLIENTE', margin + 4, yPosition + 5);
-
-  pdf.setFontSize(10);
+  // Bloque derecho — fecha y folio
   pdf.setFont('helvetica', 'normal');
-  setColor(pdf, 'darkText');
-  pdf.text(`Nombre: ${data.clientName}`, margin + 4, yPosition + 11);
-  pdf.text(`Email: ${data.clientEmail}`, margin + 4, yPosition + 16);
-  pdf.text(`Teléfono: ${data.clientPhone}`, margin + 4, yPosition + 21);
+  pdf.setFontSize(7.5);
+  setText(pdf, C.petalSoft);
+  pdf.text('COTIZACIÓN', W - M, 19, { align: 'right', charSpace: 1.5 });
 
-  yPosition += 28;
-
-  // ===== SERVICE DETAILS =====
-  setColor(pdf, 'darkPink');
-  pdf.setFontSize(11);
   pdf.setFont('helvetica', 'bold');
-  pdf.text('DETALLES DEL SERVICIO', margin, yPosition);
-
-  yPosition += 6;
-
   pdf.setFontSize(10);
+  setText(pdf, C.white);
+  pdf.text(data.date, W - M, 26, { align: 'right' });
+
   pdf.setFont('helvetica', 'normal');
-  setColor(pdf, 'darkText');
-  const serviceText = data.nailLength
-    ? `${data.serviceType} - ${data.nailLength}mm${data.gelServiceName ? ` (${data.gelServiceName})` : ''}`
-    : `${data.serviceType}${data.gelServiceName ? ` (${data.gelServiceName})` : ''}`;
-  pdf.text(serviceText, margin, yPosition);
+  pdf.setFontSize(7.5);
+  setText(pdf, C.petalSoft);
+  const folio = `Folio #${Date.now().toString().slice(-6)}`;
+  pdf.text(folio, W - M, 32, { align: 'right' });
 
-  yPosition += 8;
+  y = 62;
 
-  // ===== DECORATIONS TABLE =====
-  if (data.decorations.length > 0) {
-    setColor(pdf, 'darkPink');
-    pdf.setFontSize(9);
-    pdf.setFont('helvetica', 'bold');
+  // =================================================================
+  // TÍTULO DE SECCIÓN
+  // =================================================================
+  pdf.setFont('times', 'italic');
+  pdf.setFontSize(26);
+  setText(pdf, C.stone700);
+  pdf.text('Cotización personalizada', M, y);
 
-    // Table headers
-    const col1 = margin;
-    const col2 = margin + 85;
-    const col3 = margin + 100;
-    const col4 = margin + 125;
+  y += 6;
 
-    setFillColor(pdf, 'pink');
-    pdf.rect(col1 - 2, yPosition - 3, pageWidth - 2 * margin + 4, 5, 'F');
-
-    setColor(pdf, 'white');
-    pdf.text('Decoración', col1, yPosition + 0.5);
-    pdf.text('Uñas', col2, yPosition + 0.5);
-    pdf.text('Precio/Uña', col3, yPosition + 0.5);
-    pdf.text('Total', col4, yPosition + 0.5);
-
-    yPosition += 6;
-
-    // Table rows
-    setColor(pdf, 'darkText');
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(9);
-
-    data.decorations.forEach((decoration, index) => {
-      if (index % 2 === 0) {
-        setFillColor(pdf, 'lightPink');
-        pdf.rect(col1 - 2, yPosition - 3, pageWidth - 2 * margin + 4, 4.5, 'F');
-      }
-      setColor(pdf, 'darkText');
-      pdf.text(decoration.name, col1, yPosition);
-      pdf.text(decoration.nailCount.toString(), col2, yPosition);
-      pdf.text(`$${decoration.pricePerNail.toFixed(2)}`, col3, yPosition);
-      pdf.text(`$${decoration.total.toFixed(2)}`, col4, yPosition);
-      yPosition += 4.5;
-    });
-  }
-
-  yPosition += 2;
-
-  // Extra tones
-  if (data.extraTones > 0) {
-    setColor(pdf, 'darkText');
-    pdf.setFontSize(9);
-    pdf.setFont('helvetica', 'normal');
-    pdf.text(`Extra Tonos (más de 2): $${data.extraTones.toFixed(2)}`, margin, yPosition);
-    yPosition += 5;
-  }
-
-  // ===== ADDITIONAL SERVICES =====
-  if (data.additionalServices.length > 0) {
-    setColor(pdf, 'darkPink');
-    pdf.setFontSize(9);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('SERVICIOS ADICIONALES', margin, yPosition);
-    yPosition += 5;
-
-    // Table headers
-    const col1 = margin;
-    const col2 = margin + 100;
-    const col3 = margin + 125;
-
-    setFillColor(pdf, 'pink');
-    pdf.rect(col1 - 2, yPosition - 3, pageWidth - 2 * margin + 4, 5, 'F');
-
-    setColor(pdf, 'white');
-    pdf.text('Servicio', col1, yPosition + 0.5);
-    pdf.text('Cantidad', col2, yPosition + 0.5);
-    pdf.text('Subtotal', col3, yPosition + 0.5);
-
-    yPosition += 6;
-
-    // Table rows
-    setColor(pdf, 'darkText');
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(9);
-
-    data.additionalServices.forEach((service, index) => {
-      if (index % 2 === 0) {
-        setFillColor(pdf, 'lightPink');
-        pdf.rect(col1 - 2, yPosition - 3, pageWidth - 2 * margin + 4, 4.5, 'F');
-      }
-      setColor(pdf, 'darkText');
-      pdf.text(service.name, col1, yPosition);
-      pdf.text(service.quantity.toString(), col2, yPosition);
-      pdf.text(`$${service.total.toFixed(2)}`, col3, yPosition);
-      yPosition += 4.5;
-    });
-
-    yPosition += 2;
-  }
-
-  // ===== TOTALS SECTION =====
-  yPosition += 3;
-
-  // Subtotal line
-  setColor(pdf, 'darkText');
+  pdf.setFont('helvetica', 'normal');
   pdf.setFontSize(10);
-  pdf.setFont('helvetica', 'normal');
-  pdf.text('Subtotal:', margin + 100, yPosition);
-  setColor(pdf, 'darkPink');
-  pdf.text(`$${data.subtotal.toFixed(2)}`, margin + 140, yPosition, { align: 'right' });
+  setText(pdf, C.stone500);
+  pdf.text('Detalle completo de servicios y precios', M, y);
 
-  yPosition += 7;
+  y += 12;
 
-  // Total line with background
-  setFillColor(pdf, 'pink');
-  pdf.rect(margin + 80, yPosition - 5, 50, 10, 'F');
+  // =================================================================
+  // CLIENTE — card suave
+  // =================================================================
+  setFill(pdf, C.petalSoft);
+  pdf.roundedRect(M, y, contentW, 28, 3, 3, 'F');
 
-  setColor(pdf, 'white');
-  pdf.setFontSize(12);
+  setText(pdf, C.petalDark);
   pdf.setFont('helvetica', 'bold');
-  pdf.text('TOTAL:', margin + 85, yPosition + 0.5);
-  pdf.text(`$${data.total.toFixed(2)}`, margin + 140, yPosition + 0.5, { align: 'right' });
-
-  yPosition += 15;
-
-  // ===== NOTES SECTION =====
-  if (data.notes) {
-    setFillColor(pdf, 'lightPink');
-    pdf.rect(margin, yPosition, pageWidth - 2 * margin, 15, 'F');
-
-    setColor(pdf, 'darkPink');
-    pdf.setFontSize(9);
-    pdf.setFont('helvetica', 'bold');
-    pdf.text('NOTAS:', margin + 3, yPosition + 4);
-
-    setColor(pdf, 'darkText');
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(8);
-    const noteLines = pdf.splitTextToSize(data.notes, pageWidth - 2 * margin - 6);
-    pdf.text(noteLines, margin + 3, yPosition + 8);
-
-    yPosition = pageHeight - 35;
-  } else {
-    yPosition = pageHeight - 30;
-  }
-
-  // ===== FOOTER =====
-  // Decorative line
-  setFillColor(pdf, 'pink');
-  pdf.rect(margin, yPosition, pageWidth - 2 * margin, 0.8, 'F');
-
-  yPosition += 4;
-
-  // Thanks message
-  setColor(pdf, 'darkPink');
-  pdf.setFontSize(11);
-  pdf.setFont('helvetica', 'bold');
-  pdf.text('¡Gracias por tu preferencia!', pageWidth / 2, yPosition, { align: 'center' });
-
-  yPosition += 6;
-
-  // Contact info
-  setColor(pdf, 'lightText');
   pdf.setFontSize(8);
-  pdf.setFont('helvetica', 'normal');
-  pdf.text('Cotizador de Aby', pageWidth / 2, yPosition, { align: 'center' });
-  yPosition += 3.5;
-  pdf.text('Cotización profesional', pageWidth / 2, yPosition, { align: 'center' });
+  pdf.text('CLIENTE', M + 6, y + 7, { charSpace: 1.5 });
 
-  yPosition += 5;
-
-  // Important notes
-  setColor(pdf, 'darkPink');
-  pdf.setFontSize(7);
+  // Grid de info
+  const colX = [M + 6, M + contentW / 2];
+  setText(pdf, C.stone700);
   pdf.setFont('helvetica', 'bold');
-  const disclaimerLines = [
-    'Esta cotización es válida por 7 días',
-    'Cualquier técnica incluye 2 tonos lisos a elegir',
-  ];
-  disclaimerLines.forEach((line, index) => {
-    pdf.text(line, pageWidth / 2, yPosition + index * 2.5, { align: 'center' });
-  });
+  pdf.setFontSize(11);
+  pdf.text(data.clientName || 'Cliente', colX[0], y + 15);
+
+  setText(pdf, C.stone500);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(9);
+  if (data.clientEmail) pdf.text(data.clientEmail, colX[0], y + 22);
+  if (data.clientPhone) pdf.text(data.clientPhone, colX[1], y + 22);
+
+  y += 38;
+
+  // =================================================================
+  // SERVICIO PRINCIPAL
+  // =================================================================
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(8);
+  setText(pdf, C.stone400);
+  pdf.text('SERVICIO PRINCIPAL', M, y, { charSpace: 1.5 });
+
+  y += 6;
+
+  setText(pdf, C.stone700);
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(12);
+  const serviceLabel = data.gelServiceName
+    ? `${data.serviceType} — ${data.gelServiceName}`
+    : data.serviceType;
+  pdf.text(serviceLabel, M, y);
+
+  y += 8;
+
+  // línea separadora suave
+  setDraw(pdf, C.stone200);
+  pdf.setLineWidth(0.3);
+  pdf.line(M, y, M + contentW, y);
+  y += 8;
+
+  // =================================================================
+  // TABLA DE DECORACIONES
+  // =================================================================
+  if (data.decorations.length > 0) {
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(8);
+    setText(pdf, C.stone400);
+    pdf.text('DECORACIONES', M, y, { charSpace: 1.5 });
+    y += 6;
+
+    // header columnas
+    const colName = M;
+    const colQty  = M + contentW - 60;
+    const colPer  = M + contentW - 40;
+    const colTot  = M + contentW;
+
+    setText(pdf, C.stone500);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(7.5);
+    pdf.text('Detalle', colName, y, { charSpace: 0.8 });
+    pdf.text('Uñas', colQty, y, { align: 'right' });
+    pdf.text('Precio', colPer, y, { align: 'right' });
+    pdf.text('Subtotal', colTot, y, { align: 'right' });
+
+    y += 3;
+    setDraw(pdf, C.stone200);
+    pdf.line(M, y, M + contentW, y);
+    y += 5;
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+
+    data.decorations.forEach((d, i) => {
+      if (i % 2 === 0) {
+        setFill(pdf, C.cream);
+        pdf.rect(M - 2, y - 4, contentW + 4, 7.5, 'F');
+      }
+      setText(pdf, C.stone700);
+      pdf.text(d.name, colName, y);
+      pdf.text(d.nailCount.toString(), colQty, y, { align: 'right' });
+      pdf.text(`$${d.pricePerNail}`, colPer, y, { align: 'right' });
+      pdf.setFont('helvetica', 'bold');
+      setText(pdf, C.petalDark);
+      pdf.text(`$${d.total.toFixed(0)}`, colTot, y, { align: 'right' });
+      pdf.setFont('helvetica', 'normal');
+      y += 7.5;
+    });
+
+    y += 6;
+  }
+
+  // =================================================================
+  // TONOS EXTRA
+  // =================================================================
+  if (data.extraTones > 0) {
+    setFill(pdf, C.champagneSoft);
+    pdf.roundedRect(M, y, contentW, 12, 2, 2, 'F');
+    setText(pdf, C.stone700);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    pdf.text(`Tonos extra (${data.extraTones})`, M + 5, y + 8);
+    pdf.setFont('helvetica', 'bold');
+    setText(pdf, C.petalDark);
+    pdf.text(fmt(data.extraTones * 5), M + contentW - 5, y + 8, { align: 'right' });
+    y += 18;
+  }
+
+  // =================================================================
+  // SERVICIOS ADICIONALES
+  // =================================================================
+  if (data.additionalServices.length > 0) {
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(8);
+    setText(pdf, C.stone400);
+    pdf.text('SERVICIOS ADICIONALES', M, y, { charSpace: 1.5 });
+    y += 6;
+
+    const colName = M;
+    const colQty  = M + contentW - 50;
+    const colTot  = M + contentW;
+
+    setText(pdf, C.stone500);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(7.5);
+    pdf.text('Servicio', colName, y);
+    pdf.text('Cantidad', colQty, y, { align: 'right' });
+    pdf.text('Subtotal', colTot, y, { align: 'right' });
+
+    y += 3;
+    setDraw(pdf, C.stone200);
+    pdf.line(M, y, M + contentW, y);
+    y += 5;
+
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(10);
+    data.additionalServices.forEach((s, i) => {
+      if (i % 2 === 0) {
+        setFill(pdf, C.cream);
+        pdf.rect(M - 2, y - 4, contentW + 4, 7.5, 'F');
+      }
+      setText(pdf, C.stone700);
+      pdf.text(s.name, colName, y);
+      pdf.text(s.quantity.toString(), colQty, y, { align: 'right' });
+      pdf.setFont('helvetica', 'bold');
+      setText(pdf, C.petalDark);
+      pdf.text(`$${s.total.toFixed(0)}`, colTot, y, { align: 'right' });
+      pdf.setFont('helvetica', 'normal');
+      y += 7.5;
+    });
+
+    y += 6;
+  }
+
+  // =================================================================
+  // TOTAL — card en gradiente petal
+  // =================================================================
+  // Asegurar espacio inferior antes del total
+  if (y > H - 80) {
+    pdf.addPage();
+    y = M;
+  }
+
+  y += 4;
+  setFill(pdf, C.petalDark);
+  pdf.roundedRect(M, y, contentW, 28, 3, 3, 'F');
+
+  setText(pdf, C.petalSoft);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(8);
+  pdf.text('TOTAL A PAGAR', M + 6, y + 9, { charSpace: 1.8 });
+
+  setText(pdf, C.white);
+  pdf.setFont('times', 'bold');
+  pdf.setFontSize(28);
+  pdf.text(`$${data.total.toFixed(0)}`, M + contentW - 6, y + 19, { align: 'right' });
+
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(9);
+  setText(pdf, C.petalSoft);
+  pdf.text('MXN', M + contentW - 6, y + 25, { align: 'right' });
+
+  y += 38;
+
+  // =================================================================
+  // NOTAS
+  // =================================================================
+  if (data.notes) {
+    setFill(pdf, C.cream);
+    pdf.setDrawColor(232, 227, 216);
+    pdf.setLineWidth(0.3);
+    const lines = pdf.splitTextToSize(data.notes, contentW - 12);
+    const noteH = 8 + lines.length * 4.5;
+    pdf.roundedRect(M, y, contentW, noteH, 2, 2, 'FD');
+
+    setText(pdf, C.stone400);
+    pdf.setFont('helvetica', 'bold');
+    pdf.setFontSize(7.5);
+    pdf.text('NOTAS', M + 5, y + 5, { charSpace: 1.5 });
+
+    setText(pdf, C.stone700);
+    pdf.setFont('helvetica', 'normal');
+    pdf.setFontSize(9);
+    pdf.text(lines, M + 5, y + 10);
+
+    y += noteH + 6;
+  }
+
+  // =================================================================
+  // FOOTER fijo en la parte baja
+  // =================================================================
+  const footerY = H - 22;
+
+  setDraw(pdf, C.stone200);
+  pdf.setLineWidth(0.3);
+  pdf.line(M, footerY - 6, M + contentW, footerY - 6);
+
+  setText(pdf, C.petalDark);
+  pdf.setFont('times', 'italic');
+  pdf.setFontSize(11);
+  pdf.text('¡Gracias por tu preferencia!', W / 2, footerY, { align: 'center' });
+
+  setText(pdf, C.stone400);
+  pdf.setFont('helvetica', 'normal');
+  pdf.setFontSize(7);
+  pdf.text(
+    'Esta cotización es válida por 7 días · Cualquier técnica incluye 2 tonos lisos a elegir',
+    W / 2,
+    footerY + 5,
+    { align: 'center' }
+  );
+
+  pdf.setFont('helvetica', 'bold');
+  pdf.setFontSize(7);
+  setText(pdf, C.stone500);
+  pdf.text(BRAND, W / 2, footerY + 10, { align: 'center', charSpace: 0.8 });
 
   return pdf;
 }
