@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+@import "tailwindcss";
+
+@theme inline {
+  /* ── Cream — fondo cálido y notas suaves ── */
+  --color-lav-50:  #fdf9f4;
+  --color-lav-100: #f7ede0;
+  --color-lav-200: #efddc4;
+  --color-lav-300: #e5c8a5;
+  --color-lav-400: #c9a679;
+  --color-lav-500: #a8845a;
+  --color-lav-600: #876a47;
+  --color-lav-700: #635030;
+  --color-lav-800: #3d301d;
+  --color-lav-900: #221a10;
+
+  /* ── Petal — rosa dusty, marca principal ── */
+  --color-mauve-50:  #fdf4f5;
+  --color-mauve-100: #fbe5e8;
+  --color-mauve-200: #f5c5cc;
+  --color-mauve-300: #ed98a4;
+  --color-mauve-400: #df6577;
+  --color-mauve-500: #c8425a;
+  --color-mauve-600: #ad2f48;
+  --color-mauve-700: #8b243a;
+  --color-mauve-800: #631a2a;
+  --color-mauve-900: #3b0f19;
+
+  /* ── Champagne — acento dorado para detalles premium ── */
+  --color-champagne-50:  #fdf8ec;
+  --color-champagne-100: #faedc6;
+  --color-champagne-200: #f3d987;
+  --color-champagne-300: #e9be4f;
+  --color-champagne-400: #d29f30;
+  --color-champagne-500: #a87b1f;
+  --color-champagne-600: #7e5b16;
+
+  /* ── Stone — neutros cálidos ── */
+  --color-warm-50:  #fafaf8;
+  --color-warm-100: #f4f1ec;
+  --color-warm-200: #e8e3d8;
+  --color-warm-300: #cdc6b6;
+  --color-warm-400: #9c947f;
+  --color-warm-500: #736b56;
+  --color-warm-600: #4e4838;
+  --color-warm-700: #2f2b20;
+  --color-warm-800: #1a1810;
+  --color-warm-900: #0c0b06;
+
+  /* ── Sage — éxito sutil ── */
+  --color-green-500: #7ea567;
+  --color-green-600: #618849;
+  --color-green-700: #486836;
+
+  --font-sans:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: var(--font-sans);
+  background-color: #fdf9f4;
+  color: #2f2b20;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.005em;
+}
+
+body {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 15% 0%, rgba(237, 152, 164, 0.10), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 20%, rgba(233, 190, 79, 0.07), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(199, 158, 117, 0.08), transparent 70%);
+  background-attachment: fixed;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #e8d4b3; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #d77284; }
+
+/* ── Smooth transitions ── */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 180ms;
+}
+
+/* ── Glass ── */
+.glass {
+  background: rgba(253, 249, 244, 0.85);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(231, 213, 192, 0.5);
+}
+
+/* ── Brand gradient utilities ── */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #c8425a 0%, #8b243a 100%);
+}
+.bg-brand-gradient-soft {
+  background: linear-gradient(135deg, #fbe5e8 0%, #f7ede0 100%);
+}
+.text-brand-gradient {
+  background: linear-gradient(135deg, #8b243a 0%, #c8425a 60%, #d29f30 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.bg-cream-pattern {
+  background-color: #fdf9f4;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(237, 152, 164, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(233, 190, 79, 0.10), transparent 50%);
+}
+
+/* ── Card hover lift ── */
+.card-lift {
+  transition: transform 200ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -8px rgba(139, 36, 58, 0.15), 0 4px 12px -2px rgba(139, 36, 58, 0.08);
+}
+
+/* ── Shadows ── */
+.shadow-soft {
+  box-shadow: 0 4px 20px -4px rgba(99, 50, 30, 0.08), 0 1px 3px rgba(99, 50, 30, 0.04);
+}
+.shadow-petal {
+  box-shadow: 0 8px 28px -8px rgba(200, 66, 90, 0.30), 0 2px 6px rgba(200, 66, 90, 0.10);
+}
+.shadow-petal-lg {
+  box-shadow: 0 16px 48px -12px rgba(200, 66, 90, 0.35), 0 4px 12px rgba(200, 66, 90, 0.12);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.float { animation: float 3s ease-in-out infinite; }
+
+/* ── Focus rings ── */
+*:focus-visible {
+  outline: 2px solid #c8425a;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  background: linear-gradient(135deg, #c8425a 0%, #8b243a 100%);
+  color: white;
+  box-shadow: 0 4px 14px -2px rgba(139, 36, 58, 0.35);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #d05266 0%, #9d2a42 100%);
+  box-shadow: 0 6px 20px -4px rgba(139, 36, 58, 0.45);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-ghost {
+  background: white;
+  color: #4e4838;
+  border: 1px solid #e8e3d8;
+}
+.btn-ghost:hover {
+  background: #faf3e8;
+  border-color: #ed98a4;
+  color: #8b243a;
+}
+
+/* ── Numeric input arrows hide ── */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
