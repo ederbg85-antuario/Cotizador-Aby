@@ -1,126 +1,129 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, Plus, Minus, Check } from 'lucide-react';
+import { Plus, Minus, Check } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
-import { DECORATIONS, CATEGORY_LABELS, getDecorationsByCategory } from '@/lib/pricing-data';
+import { DECORATIONS, CATEGORY_LABELS } from '@/lib/pricing-data';
 import type { DecorationCategory } from '@/lib/types';
 
-const CATEGORIES: DecorationCategory[] = ['tecnica', 'nail-art', 'cristales', 'extras'];
+type Filter = 'all' | DecorationCategory;
 
-const CATEGORY_ICONS: Record<DecorationCategory, string> = {
-  tecnica: '✨',
-  'nail-art': '🎨',
-  cristales: '💎',
-  extras: '🌸',
-};
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: 'all',       label: 'Todos'     },
+  { id: 'tecnica',   label: 'Técnicas'  },
+  { id: 'nail-art',  label: 'Nail art'  },
+  { id: 'cristales', label: 'Cristales' },
+  { id: 'extras',    label: 'Extras'    },
+];
 
 export function DecorationSelector() {
   const { decorations, addDecoration, removeDecoration, updateDecorationNails } = useAppStore();
-  const [expanded, setExpanded] = useState<Record<DecorationCategory, boolean>>({ tecnica: true, 'nail-art': true, cristales: false, extras: false });
+  const [filter, setFilter] = useState<Filter>('all');
 
-  const toggle   = (cat: DecorationCategory) => setExpanded((p) => ({ ...p, [cat]: !p[cat] }));
-  const isSel    = (id: string) => decorations.some((d) => d.decorationId === id);
-  const getN     = (id: string) => decorations.find((d) => d.decorationId === id)?.nailCount || 1;
-  const togDec   = (id: string) => isSel(id) ? removeDecoration(id) : addDecoration(id);
+  const isSel  = (id: string) => decorations.some((d) => d.decorationId === id);
+  const getN   = (id: string) => decorations.find((d) => d.decorationId === id)?.nailCount || 1;
+  const togDec = (id: string) => isSel(id) ? removeDecoration(id) : addDecoration(id);
+
+  const filtered = filter === 'all' ? DECORATIONS : DECORATIONS.filter((d) => d.category === filter);
+
+  const countByCat = (cat: Filter) => {
+    if (cat === 'all') return decorations.length;
+    return decorations.filter((d) => DECORATIONS.find((x) => x.id === d.decorationId)?.category === cat).length;
+  };
 
   return (
     <div className="space-y-4">
-      {CATEGORIES.map((cat) => {
-        const items = getDecorationsByCategory(cat);
-        const isOpen = expanded[cat];
-        const count  = decorations.filter((d) => DECORATIONS.find((x) => x.id === d.decorationId)?.category === cat).length;
-
-        return (
-          <div key={cat} className="rounded-2xl border border-lav-200 overflow-hidden bg-white shadow-soft">
+      {/* Filtros chip */}
+      <div className="flex gap-2 overflow-x-auto -mx-1 px-1 pb-1 scrollbar-thin">
+        {FILTERS.map((f) => {
+          const active = filter === f.id;
+          const n = countByCat(f.id);
+          return (
             <button
-              onClick={() => toggle(cat)}
-              className="w-full px-7 py-6 flex items-center justify-between hover:bg-lav-50/60 transition-colors"
+              key={f.id}
+              onClick={() => setFilter(f.id)}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap border transition-all flex-shrink-0 ${
+                active
+                  ? 'bg-mauve-700 text-white border-mauve-700 shadow-soft'
+                  : 'bg-white text-warm-600 border-lav-200 hover:border-mauve-300'
+              }`}
             >
-              <div className="flex items-center gap-4">
-                <span className="text-xl">{CATEGORY_ICONS[cat]}</span>
-                <span className="font-semibold text-warm-700 text-base">{CATEGORY_LABELS[cat]}</span>
-                {count > 0 && (
-                  <span className="min-w-6 h-6 px-2 flex items-center justify-center text-xs font-bold text-white bg-brand-gradient rounded-full shadow-petal">
-                    {count}
-                  </span>
-                )}
-              </div>
-              <ChevronDown
-                size={18}
-                className={`text-warm-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-              />
+              {f.label}
+              {n > 0 && (
+                <span className={`inline-flex items-center justify-center min-w-4 h-4 px-1 rounded-full text-[10px] font-bold ${
+                  active ? 'bg-white/25 text-white' : 'bg-mauve-100 text-mauve-700'
+                }`}>
+                  {n}
+                </span>
+              )}
             </button>
+          );
+        })}
+      </div>
 
-            {isOpen && (
-              <div className="border-t border-lav-100 p-6 space-y-3 bg-lav-50/40">
-                {items.map((dec) => {
-                  const sel   = isSel(dec.id);
-                  const nails = getN(dec.id);
-                  return (
-                    <div
-                      key={dec.id}
-                      className={`rounded-xl border overflow-hidden transition-all ${
-                        sel
-                          ? 'bg-brand-gradient border-mauve-700 shadow-petal'
-                          : 'bg-white border-lav-200 hover:border-mauve-300'
-                      }`}
+      {/* Lista compacta */}
+      <div className="space-y-2">
+        {filtered.map((dec) => {
+          const sel   = isSel(dec.id);
+          const nails = getN(dec.id);
+          return (
+            <div
+              key={dec.id}
+              className={`rounded-xl border overflow-hidden transition-all ${
+                sel ? 'bg-mauve-50/70 border-mauve-300' : 'bg-white border-lav-200 hover:border-mauve-200'
+              }`}
+            >
+              <button
+                onClick={() => togDec(dec.id)}
+                className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-sm text-warm-800 truncate">{dec.name}</p>
+                  <p className="text-[11px] mt-0.5 text-warm-500">
+                    <span className="text-mauve-700 font-semibold">${dec.pricePerNail}</span> por uña
+                    <span className="ml-1.5 text-warm-400">· {CATEGORY_LABELS[dec.category]}</span>
+                  </p>
+                </div>
+                <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center ${
+                  sel ? 'bg-mauve-700 text-white' : 'bg-lav-100 text-mauve-700'
+                }`}>
+                  {sel ? <Check size={16} strokeWidth={2.5} /> : <Plus size={16} strokeWidth={2.5} />}
+                </div>
+              </button>
+              {sel && (
+                <div className="flex items-center gap-3 bg-white border-t border-mauve-100 px-4 py-2.5">
+                  <span className="text-xs text-warm-600 flex-1 font-medium">¿Cuántas uñas?</span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => updateDecorationNails(dec.id, Math.max(1, nails - 1))}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-lav-100 hover:bg-mauve-100 text-warm-700"
                     >
-                      <div className="flex items-center justify-between gap-4 px-6 py-5">
-                        <div className="min-w-0">
-                          <p className={`font-semibold text-sm truncate ${sel ? 'text-white' : 'text-warm-800'}`}>
-                            {dec.name}
-                          </p>
-                          <p className={`text-xs mt-1 font-medium ${sel ? 'text-white/85' : 'text-mauve-600'}`}>
-                            ${dec.pricePerNail} por uña
-                          </p>
-                        </div>
-                        <button
-                          onClick={() => togDec(dec.id)}
-                          className={`flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${
-                            sel
-                              ? 'bg-white/20 text-white hover:bg-white/30'
-                              : 'bg-mauve-50 text-mauve-700 hover:bg-mauve-100'
-                          }`}
-                        >
-                          {sel ? <><Check size={13} /> Agregado</> : <><Plus size={13} /> Agregar</>}
-                        </button>
-                      </div>
-                      {sel && (
-                        <div className="flex items-center gap-4 bg-black/15 px-5 py-3.5 border-t border-white/10">
-                          <span className="text-xs text-white/85 flex-1 font-medium">¿Cuántas uñas?</span>
-                          <div className="flex items-center gap-1.5">
-                            <button
-                              onClick={() => updateDecorationNails(dec.id, Math.max(1, nails - 1))}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 text-white"
-                            >
-                              <Minus size={13} />
-                            </button>
-                            <input
-                              type="number"
-                              min="1"
-                              max="10"
-                              value={nails}
-                              onChange={(e) => updateDecorationNails(dec.id, parseInt(e.target.value) || 1)}
-                              className="w-10 h-8 text-center text-sm font-bold text-warm-800 bg-white rounded-lg border-0 focus:outline-none"
-                            />
-                            <button
-                              onClick={() => updateDecorationNails(dec.id, Math.min(10, nails + 1))}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 text-white"
-                            >
-                              <Plus size={13} />
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        );
-      })}
+                      <Minus size={12} />
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      value={nails}
+                      onChange={(e) => updateDecorationNails(dec.id, parseInt(e.target.value) || 1)}
+                      className="w-10 h-7 text-center text-sm font-bold text-warm-800 bg-lav-50 border border-lav-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-mauve-300"
+                    />
+                    <button
+                      onClick={() => updateDecorationNails(dec.id, Math.min(10, nails + 1))}
+                      className="w-7 h-7 flex items-center justify-center rounded-lg bg-lav-100 hover:bg-mauve-100 text-warm-700"
+                    >
+                      <Plus size={12} />
+                    </button>
+                  </div>
+                  <span className="text-xs font-bold text-mauve-700 ml-1 min-w-12 text-right">
+                    +${dec.pricePerNail * nails}
+                  </span>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

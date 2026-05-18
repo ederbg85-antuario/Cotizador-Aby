@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, Minus, Check, Palette } from 'lucide-react';
+import { Plus, Minus, Check } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
 import { ADDITIONAL_SERVICES, INCLUDED_TONES, EXTRA_TONE_PRICE } from '@/lib/pricing-data';
 
@@ -10,55 +10,52 @@ export function ExtrasSelector() {
   const getQ  = (id: string) => additionalServices.find((s) => s.serviceId === id)?.quantity || 1;
 
   return (
-    <div className="space-y-8">
-      {/* Tonos */}
-      <div className="rounded-2xl border border-champagne-200/70 bg-champagne-50/50 p-7 md:p-8">
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-xl bg-champagne-100 flex items-center justify-center">
-            <Palette size={17} className="text-champagne-600" />
+    <div className="space-y-6">
+      {/* Tonos extra — control simple */}
+      <div className="rounded-xl border border-champagne-200/70 bg-champagne-50/40 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold text-sm text-warm-800">Tonos extra</p>
+            <p className="text-[11px] text-warm-500 mt-0.5">
+              Incluye {INCLUDED_TONES} lisos · ${EXTRA_TONE_PRICE} c/u extra
+            </p>
           </div>
-          <p className="text-xs font-bold text-warm-500 uppercase tracking-[0.15em]">Tonos extra</p>
-        </div>
-
-        <p className="text-sm text-warm-600 leading-relaxed mb-5">
-          Incluye <span className="font-semibold text-warm-800">{INCLUDED_TONES} tonos lisos</span> sin costo.
-          Cada tono adicional: <span className="font-bold text-mauve-700">${EXTRA_TONE_PRICE} MXN</span>
-        </p>
-
-        <div className="flex items-center justify-between bg-white rounded-xl border border-champagne-200/60 px-5 py-4">
-          <span className="text-sm text-warm-700 font-medium">Tonos adicionales</span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 flex-shrink-0">
             <button
               onClick={() => setExtraTones(Math.max(0, extraTones - 1))}
               disabled={extraTones === 0}
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-lav-100 hover:bg-mauve-100 disabled:opacity-40 disabled:hover:bg-lav-100 text-warm-600"
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-lav-200 hover:bg-mauve-50 disabled:opacity-40 text-warm-700"
             >
-              <Minus size={15} />
+              <Minus size={13} />
             </button>
             <input
               type="number"
               min="0"
               value={extraTones}
               onChange={(e) => setExtraTones(parseInt(e.target.value) || 0)}
-              className="w-14 h-10 text-center font-bold text-warm-800 bg-lav-50 border border-lav-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-mauve-300"
+              className="w-11 h-8 text-center font-bold text-warm-800 bg-white border border-lav-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-mauve-300"
             />
             <button
               onClick={() => setExtraTones(extraTones + 1)}
-              className="w-10 h-10 flex items-center justify-center rounded-xl bg-lav-100 hover:bg-mauve-100 text-warm-600"
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-white border border-lav-200 hover:bg-mauve-50 text-warm-700"
             >
-              <Plus size={15} />
+              <Plus size={13} />
             </button>
-            {extraTones > 0 && (
-              <span className="ml-3 text-sm font-bold text-mauve-700">+${extraTones * EXTRA_TONE_PRICE}</span>
-            )}
           </div>
         </div>
+        {extraTones > 0 && (
+          <p className="mt-3 text-xs font-semibold text-mauve-700">
+            + ${extraTones * EXTRA_TONE_PRICE} MXN
+          </p>
+        )}
       </div>
 
-      {/* Adicionales */}
+      {/* Servicios adicionales — lista compacta */}
       <div>
-        <p className="text-xs font-bold text-warm-500 uppercase tracking-[0.15em] mb-4">Servicios adicionales</p>
-        <div className="space-y-3">
+        <p className="text-[11px] font-semibold text-warm-400 uppercase tracking-[0.18em] mb-3">
+          Servicios adicionales
+        </p>
+        <div className="space-y-2">
           {ADDITIONAL_SERVICES.map((svc) => {
             const sel   = isSel(svc.id);
             const qty   = getQ(svc.id);
@@ -66,59 +63,53 @@ export function ExtrasSelector() {
             return (
               <div
                 key={svc.id}
-                className={`rounded-2xl border overflow-hidden transition-all ${
-                  sel
-                    ? 'bg-brand-gradient border-mauve-700 shadow-petal'
-                    : 'bg-white border-lav-200 hover:border-mauve-300'
+                className={`rounded-xl border overflow-hidden transition-all ${
+                  sel ? 'bg-mauve-50/70 border-mauve-300' : 'bg-white border-lav-200 hover:border-mauve-200'
                 }`}
               >
-                <div className="flex items-center justify-between gap-4 px-7 py-5">
-                  <div className="min-w-0">
-                    <p className={`font-semibold text-sm truncate ${sel ? 'text-white' : 'text-warm-800'}`}>
-                      {svc.name}
-                    </p>
-                    <p className={`text-xs mt-1 ${sel ? 'text-white/85' : 'text-warm-500'}`}>
-                      <span className={`font-bold ${sel ? 'text-white' : 'text-mauve-700'}`}>${svc.price}</span>
-                      <span className="mx-1.5">·</span>
-                      por {svc.unit}
+                <button
+                  onClick={() => toggleAdditionalService(svc.id)}
+                  className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left"
+                >
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-sm text-warm-800 truncate">{svc.name}</p>
+                    <p className="text-[11px] mt-0.5 text-warm-500">
+                      <span className="text-mauve-700 font-semibold">${svc.price}</span> por {svc.unit}
                     </p>
                   </div>
-                  <button
-                    onClick={() => toggleAdditionalService(svc.id)}
-                    className={`flex-shrink-0 inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                      sel
-                        ? 'bg-white/20 text-white hover:bg-white/30'
-                        : 'bg-mauve-50 text-mauve-700 hover:bg-mauve-100'
-                    }`}
-                  >
-                    {sel ? <><Check size={13} /> Agregado</> : <><Plus size={13} /> Agregar</>}
-                  </button>
-                </div>
+                  <div className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center ${
+                    sel ? 'bg-mauve-700 text-white' : 'bg-lav-100 text-mauve-700'
+                  }`}>
+                    {sel ? <Check size={16} strokeWidth={2.5} /> : <Plus size={16} strokeWidth={2.5} />}
+                  </div>
+                </button>
                 {sel && needQ && (
-                  <div className="flex items-center gap-4 bg-black/15 px-6 py-3.5 border-t border-white/10">
-                    <span className="text-xs text-white/85 flex-1 font-medium">Cantidad</span>
+                  <div className="flex items-center gap-3 bg-white border-t border-mauve-100 px-4 py-2.5">
+                    <span className="text-xs text-warm-600 flex-1 font-medium">Cantidad</span>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => setAdditionalQuantity(svc.id, Math.max(1, qty - 1))}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 text-white"
+                        className="w-7 h-7 flex items-center justify-center rounded-lg bg-lav-100 hover:bg-mauve-100 text-warm-700"
                       >
-                        <Minus size={13} />
+                        <Minus size={12} />
                       </button>
                       <input
                         type="number"
                         min="1"
                         value={qty}
                         onChange={(e) => setAdditionalQuantity(svc.id, parseInt(e.target.value) || 1)}
-                        className="w-10 h-8 text-center text-sm font-bold text-warm-800 bg-white rounded-lg border-0 focus:outline-none"
+                        className="w-10 h-7 text-center text-sm font-bold text-warm-800 bg-lav-50 border border-lav-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-mauve-300"
                       />
                       <button
                         onClick={() => setAdditionalQuantity(svc.id, qty + 1)}
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/15 hover:bg-white/25 text-white"
+                        className="w-7 h-7 flex items-center justify-center rounded-lg bg-lav-100 hover:bg-mauve-100 text-warm-700"
                       >
-                        <Plus size={13} />
+                        <Plus size={12} />
                       </button>
-                      <span className="ml-3 text-sm font-bold text-white">${qty * svc.price}</span>
                     </div>
+                    <span className="text-xs font-bold text-mauve-700 ml-1 min-w-12 text-right">
+                      +${qty * svc.price}
+                    </span>
                   </div>
                 )}
               </div>
