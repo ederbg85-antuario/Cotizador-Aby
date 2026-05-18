@@ -34,33 +34,35 @@ export function QuoteSummary() {
   return (
     <div className="bg-white rounded-3xl border border-lav-100 shadow-petal overflow-hidden">
       {/* ── Header total ── */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full block text-left bg-brand-gradient text-white hover:opacity-95 transition-opacity"
-      >
-        <div className="px-8 py-9 flex items-center justify-between gap-4">
-          <div className="min-w-0 flex-1">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80 mb-4">
-              Total estimado
-            </p>
-            <p className="font-display text-5xl font-semibold leading-none tracking-tight">
-              ${totalPrice.toFixed(0)}
-              <span className="text-lg font-normal text-white/75 ml-2 align-middle">MXN</span>
-            </p>
+      <div className="bg-brand-gradient text-white">
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full text-left hover:bg-black/5 transition-colors"
+        >
+          <div className="px-9 py-10 flex items-center justify-between gap-5">
+            <div className="min-w-0 flex-1">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80 mb-5">
+                Total estimado
+              </p>
+              <p className="font-display text-5xl font-semibold leading-none tracking-tight">
+                ${totalPrice.toFixed(0)}
+                <span className="text-lg font-normal text-white/75 ml-2 align-middle">MXN</span>
+              </p>
+            </div>
+            <ChevronUp
+              size={22}
+              className={`text-white/85 flex-shrink-0 transition-transform ${open ? '' : 'rotate-180'}`}
+            />
           </div>
-          <ChevronUp
-            size={22}
-            className={`text-white/85 flex-shrink-0 transition-transform ${open ? '' : 'rotate-180'}`}
-          />
-        </div>
-      </button>
+        </button>
+      </div>
 
       {open && (
-        <div className="px-8 pt-8 pb-8 space-y-7 max-h-[40vh] lg:max-h-none overflow-y-auto">
+        <div className="px-9 pt-9 pb-9 space-y-8 max-h-[40vh] lg:max-h-none overflow-y-auto">
           {/* ── Breakdown ── */}
           {items.length > 0 ? (
             <div>
-              <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.18em] mb-4">
+              <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.18em] mb-5">
                 Desglose
               </p>
               <div className="space-y-0.5 max-h-44 overflow-y-auto -mx-1 px-1">
@@ -71,7 +73,7 @@ export function QuoteSummary() {
                   </div>
                 ))}
               </div>
-              <div className="mt-4 pt-4 border-t-2 border-mauve-100 flex justify-between items-baseline">
+              <div className="mt-5 pt-5 border-t-2 border-mauve-100 flex justify-between items-baseline">
                 <span className="text-sm font-semibold text-warm-700">Total</span>
                 <span className="font-display text-2xl font-semibold text-mauve-700">
                   ${totalPrice.toFixed(0)}
@@ -80,7 +82,7 @@ export function QuoteSummary() {
               </div>
             </div>
           ) : (
-            <div className="text-center py-7 px-5 bg-lav-50/60 rounded-2xl border border-dashed border-lav-200">
+            <div className="text-center py-8 px-6 bg-lav-50/60 rounded-2xl border border-dashed border-lav-200">
               <p className="text-sm text-warm-500 leading-relaxed">
                 Selecciona un servicio para comenzar tu cotización
               </p>
@@ -89,7 +91,7 @@ export function QuoteSummary() {
 
           {/* ── Client ── */}
           <div>
-            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.18em] mb-4">
+            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.18em] mb-5">
               Datos del cliente
             </p>
             <div className="space-y-3">
@@ -104,7 +106,8 @@ export function QuoteSummary() {
                   placeholder={ph}
                   value={v}
                   onChange={(e) => setClientInfo({ [f]: e.target.value })}
-                  className="w-full h-12 px-4 rounded-xl bg-lav-50/60 border border-lav-200 text-warm-800 placeholder-warm-400 text-sm focus:outline-none focus:ring-2 focus:ring-mauve-300 focus:border-mauve-300 transition-all"
+                  className="w-full h-13 px-5 rounded-xl bg-lav-50/60 border border-lav-200 text-warm-800 placeholder-warm-400 text-sm focus:outline-none focus:ring-2 focus:ring-mauve-300 focus:border-mauve-300 transition-all"
+                  style={{ height: '3.25rem' }}
                 />
               ))}
             </div>
@@ -114,7 +117,8 @@ export function QuoteSummary() {
           <div className="space-y-3 pt-2">
             <button
               onClick={handleSave}
-              className="btn-primary w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl text-sm font-semibold"
+              className="btn-primary w-full inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold"
+              style={{ height: '3.25rem' }}
             >
               <Save size={16} /> Guardar Cotización
             </button>
@@ -133,13 +137,15 @@ export function QuoteSummary() {
                   date: new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
                 });
               }}
-              className="btn-ghost w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl text-sm font-semibold"
+              className="btn-ghost w-full inline-flex items-center justify-center gap-2 rounded-xl text-sm font-semibold"
+              style={{ height: '3.25rem' }}
             >
               <Download size={16} /> Generar PDF
             </button>
             <button
               onClick={handleWA}
-              className="w-full inline-flex items-center justify-center gap-2 h-12 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold shadow-soft transition-all"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold shadow-soft transition-all"
+              style={{ height: '3.25rem' }}
             >
               <Share2 size={16} /> Compartir por WhatsApp
             </button>

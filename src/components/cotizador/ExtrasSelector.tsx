@@ -12,7 +12,7 @@ export function ExtrasSelector() {
   return (
     <div className="space-y-8">
       {/* Tonos */}
-      <div className="rounded-2xl border border-champagne-200/70 bg-champagne-50/50 p-6 md:p-7">
+      <div className="rounded-2xl border border-champagne-200/70 bg-champagne-50/50 p-7 md:p-8">
         <div className="flex items-center gap-3 mb-5">
           <div className="w-10 h-10 rounded-xl bg-champagne-100 flex items-center justify-center">
             <Palette size={17} className="text-champagne-600" />
@@ -72,7 +72,7 @@ export function ExtrasSelector() {
                     : 'bg-white border-lav-200 hover:border-mauve-300'
                 }`}
               >
-                <div className="flex items-center justify-between gap-4 px-6 py-5">
+                <div className="flex items-center justify-between gap-4 px-7 py-5">
                   <div className="min-w-0">
                     <p className={`font-semibold text-sm truncate ${sel ? 'text-white' : 'text-warm-800'}`}>
                       {svc.name}

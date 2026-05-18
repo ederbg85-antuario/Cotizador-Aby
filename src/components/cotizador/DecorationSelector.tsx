@@ -35,7 +35,7 @@ export function DecorationSelector() {
           <div key={cat} className="rounded-2xl border border-lav-200 overflow-hidden bg-white shadow-soft">
             <button
               onClick={() => toggle(cat)}
-              className="w-full px-6 py-5 flex items-center justify-between hover:bg-lav-50/60 transition-colors"
+              className="w-full px-7 py-6 flex items-center justify-between hover:bg-lav-50/60 transition-colors"
             >
               <div className="flex items-center gap-4">
                 <span className="text-xl">{CATEGORY_ICONS[cat]}</span>
@@ -53,7 +53,7 @@ export function DecorationSelector() {
             </button>
 
             {isOpen && (
-              <div className="border-t border-lav-100 p-5 space-y-3 bg-lav-50/40">
+              <div className="border-t border-lav-100 p-6 space-y-3 bg-lav-50/40">
                 {items.map((dec) => {
                   const sel   = isSel(dec.id);
                   const nails = getN(dec.id);
@@ -66,7 +66,7 @@ export function DecorationSelector() {
                           : 'bg-white border-lav-200 hover:border-mauve-300'
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-4 px-5 py-4">
+                      <div className="flex items-center justify-between gap-4 px-6 py-5">
                         <div className="min-w-0">
                           <p className={`font-semibold text-sm truncate ${sel ? 'text-white' : 'text-warm-800'}`}>
                             {dec.name}

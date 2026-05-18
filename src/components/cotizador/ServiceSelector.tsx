@@ -28,14 +28,14 @@ export function ServiceSelector() {
             <button
               key={id}
               onClick={() => handleServiceSelect(id)}
-              className={`group relative p-7 sm:p-8 rounded-2xl border text-left transition-all duration-200 flex flex-col min-h-[17rem] ${
+              className={`group relative p-8 sm:p-9 lg:p-10 rounded-2xl border text-left transition-all duration-200 flex flex-col min-h-[17rem] ${
                 selected
                   ? 'border-mauve-600 bg-brand-gradient text-white shadow-petal'
                   : 'border-lav-200 bg-lav-50/60 hover:border-mauve-300 hover:bg-white hover:shadow-soft'
               }`}
             >
               {selected && (
-                <div className="absolute top-5 right-5 w-7 h-7 bg-white/25 rounded-full flex items-center justify-center">
+                <div className="absolute top-6 right-6 w-7 h-7 bg-white/25 rounded-full flex items-center justify-center">
                   <Check size={14} className="text-white" strokeWidth={2.5} />
                 </div>
               )}
@@ -72,7 +72,7 @@ export function ServiceSelector() {
                 <button
                   key={gel.id}
                   onClick={() => setGelService(gel.id)}
-                  className={`relative p-6 rounded-2xl border text-center transition-all duration-200 ${
+                  className={`relative p-8 rounded-2xl border text-center transition-all duration-200 ${
                     selected
                       ? 'border-mauve-600 bg-brand-gradient text-white shadow-petal'
                       : 'border-lav-200 bg-lav-50/60 hover:border-mauve-300 hover:bg-white hover:shadow-soft'
