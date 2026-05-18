@@ -84,16 +84,16 @@ export function Cotizador() {
         <div className="absolute -top-40 -right-40 w-[28rem] h-[28rem] rounded-full bg-mauve-200/40 blur-3xl" />
         <div className="absolute -bottom-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-champagne-200/30 blur-3xl" />
 
-        <div className="container-app relative pt-16 pb-16 md:pt-24 md:pb-20 lg:pt-28 lg:pb-24">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-mauve-200/60 mb-8">
+        <div className="container-app relative pt-14 pb-14 md:pt-20 md:pb-18 lg:pt-24 lg:pb-20">
+          <div className="max-w-5xl">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 backdrop-blur-sm border border-mauve-200/60 mb-7">
               <Sparkles size={13} className="text-mauve-600" />
               <span className="text-xs font-medium text-mauve-700 tracking-wide">Cotizador profesional</span>
             </div>
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-warm-800 leading-[1.05] mb-6">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-warm-800 leading-[1.05] mb-5">
               Diseña tu manicura <span className="italic text-brand-gradient">ideal</span>
             </h1>
-            <p className="text-warm-500 text-base sm:text-lg max-w-xl leading-relaxed">
+            <p className="text-warm-500 text-base sm:text-lg max-w-2xl leading-relaxed">
               Selecciona tu servicio, decoraciones y extras. Calculamos tu cotización al instante con total transparencia.
             </p>
           </div>
@@ -145,8 +145,8 @@ export function Cotizador() {
       </div>
 
       {/* ── Content ── */}
-      <div className="container-app py-12 md:py-16 lg:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_22rem] xl:grid-cols-[1fr_24rem] gap-10 lg:gap-14 xl:gap-16">
+      <div className="container-app py-10 md:py-14 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_22rem] xl:grid-cols-[1fr_24rem] gap-8 lg:gap-10">
 
           {/* Steps column */}
           <div className="space-y-8 md:space-y-10 min-w-0">

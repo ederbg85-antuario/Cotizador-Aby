@@ -20,32 +20,32 @@ export function ServiceSelector() {
   ];
 
   return (
-    <div className="space-y-9">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="space-y-10">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {services.map(({ id, label, description, icon: Icon, note }) => {
           const selected = serviceType === id;
           return (
             <button
               key={id}
               onClick={() => handleServiceSelect(id)}
-              className={`group relative p-6 pb-7 rounded-2xl border text-left transition-all duration-200 overflow-hidden flex flex-col min-h-[15rem] ${
+              className={`group relative p-7 sm:p-8 rounded-2xl border text-left transition-all duration-200 flex flex-col min-h-[17rem] ${
                 selected
                   ? 'border-mauve-600 bg-brand-gradient text-white shadow-petal'
                   : 'border-lav-200 bg-lav-50/60 hover:border-mauve-300 hover:bg-white hover:shadow-soft'
               }`}
             >
               {selected && (
-                <div className="absolute top-4 right-4 w-6 h-6 bg-white/25 rounded-full flex items-center justify-center">
-                  <Check size={13} className="text-white" strokeWidth={2.5} />
+                <div className="absolute top-5 right-5 w-7 h-7 bg-white/25 rounded-full flex items-center justify-center">
+                  <Check size={14} className="text-white" strokeWidth={2.5} />
                 </div>
               )}
-              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 transition-all ${
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-all ${
                 selected ? 'bg-white/20' : 'bg-mauve-100 group-hover:bg-mauve-200'
               }`}>
                 <Icon size={22} className={selected ? 'text-white' : 'text-mauve-600'} />
               </div>
-              <p className={`font-semibold text-base mb-2 ${selected ? 'text-white' : 'text-warm-800'}`}>{label}</p>
-              <p className={`text-sm leading-relaxed mb-5 ${selected ? 'text-white/85' : 'text-warm-500'}`}>{description}</p>
+              <p className={`font-semibold text-base mb-2.5 ${selected ? 'text-white' : 'text-warm-800'}`}>{label}</p>
+              <p className={`text-sm leading-relaxed mb-6 ${selected ? 'text-white/85' : 'text-warm-500'}`}>{description}</p>
               <div className="mt-auto">
                 <span className={`text-[11px] font-medium px-3 py-1.5 rounded-full inline-block ${
                   selected ? 'bg-white/20 text-white' : 'bg-champagne-100 text-champagne-600'

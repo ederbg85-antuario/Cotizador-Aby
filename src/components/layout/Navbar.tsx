@@ -44,12 +44,12 @@ export default function Navbar() {
             <Logo />
           </Link>
           <div className="flex-1" />
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             {navItems.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-2.5 px-5 h-11 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                className={`inline-flex items-center justify-center gap-2.5 px-7 h-12 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                   isActive(href)
                     ? "bg-brand-gradient text-white shadow-petal"
                     : "text-warm-600 hover:text-mauve-700 hover:bg-lav-100/60"

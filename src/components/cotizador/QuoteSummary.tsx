@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronUp, Download, Share2, Save, Sparkles } from 'lucide-react';
+import { ChevronUp, Download, Share2, Save } from 'lucide-react';
 import { useAppStore } from '@/lib/store';
 import { ACRILICO_PRICES, RETOQUE_PRICES, GEL_SERVICES, getDecorationById, getAdditionalServiceById, EXTRA_TONE_PRICE } from '@/lib/pricing-data';
 import { downloadQuotePDF } from '@/lib/generate-pdf';
@@ -38,22 +38,19 @@ export function QuoteSummary() {
         onClick={() => setOpen(!open)}
         className="w-full block text-left bg-brand-gradient text-white hover:opacity-95 transition-opacity"
       >
-        <div className="px-8 py-8 flex items-start justify-between gap-4">
+        <div className="px-8 py-9 flex items-center justify-between gap-4">
           <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles size={13} className="text-champagne-200 flex-shrink-0" />
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
-                Total estimado
-              </p>
-            </div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/80 mb-4">
+              Total estimado
+            </p>
             <p className="font-display text-5xl font-semibold leading-none tracking-tight">
               ${totalPrice.toFixed(0)}
-              <span className="text-lg font-normal text-white/80 ml-2 align-middle">MXN</span>
+              <span className="text-lg font-normal text-white/75 ml-2 align-middle">MXN</span>
             </p>
           </div>
           <ChevronUp
-            size={20}
-            className={`text-white/85 flex-shrink-0 mt-2 transition-transform ${open ? '' : 'rotate-180'}`}
+            size={22}
+            className={`text-white/85 flex-shrink-0 transition-transform ${open ? '' : 'rotate-180'}`}
           />
         </div>
       </button>
