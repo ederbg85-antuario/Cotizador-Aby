@@ -86,10 +86,60 @@ h1, h2, h3, h4 {
   letter-spacing: -0.015em;
 }
 
+/* ── Container con padding generoso, responsivo ── */
+.container-app {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1180px;
+  padding-left: 1.25rem;   /* 20px - mobile */
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) {
+  .container-app {
+    padding-left: 2rem;    /* 32px - sm */
+    padding-right: 2rem;
+  }
+}
+@media (min-width: 768px) {
+  .container-app {
+    padding-left: 3rem;    /* 48px - md */
+    padding-right: 3rem;
+  }
+}
+@media (min-width: 1024px) {
+  .container-app {
+    padding-left: 4rem;    /* 64px - lg */
+    padding-right: 4rem;
+  }
+}
+@media (min-width: 1280px) {
+  .container-app {
+    padding-left: 5rem;    /* 80px - xl */
+    padding-right: 5rem;
+  }
+}
+
+/* Variante más estrecha para auth/lectura */
+.container-narrow {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 480px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width: 640px) {
+  .container-narrow {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
 /* ── Scrollbar ── */
-::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar       { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #e8d4b3; border-radius: 6px; }
+::-webkit-scrollbar-thumb { background: #e8d4b3; border-radius: 8px; }
 ::-webkit-scrollbar-thumb:hover { background: #d77284; }
 
 /* ── Smooth transitions ── */
@@ -156,16 +206,6 @@ h1, h2, h3, h4 {
 }
 .animate-fade-in-up { animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 
-@keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.shimmer {
-  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-6px); }
@@ -211,3 +251,8 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 input[type="number"] { -moz-appearance: textfield; }
+
+/* Reserva inferior para nav mobile + summary mobile */
+@media (max-width: 1023px) {
+  .pb-mobile-stack { padding-bottom: 22rem; }
+}

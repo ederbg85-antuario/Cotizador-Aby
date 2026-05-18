@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Nails By Cinthia GB — Cotizador",
+  title: "Cotizador de Aby — Servicios de manicura",
   description: "Cotizador profesional de servicios de manicura. Acrílico, gel y nail art.",
 };
 

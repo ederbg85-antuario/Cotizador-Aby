@@ -36,43 +36,43 @@ export function QuoteSummary() {
       {/* Total */}
       <button
         onClick={() => setOpen(!open)}
-        className="w-full px-6 py-5 flex items-center justify-between bg-brand-gradient text-white hover:opacity-95 transition-opacity"
+        className="w-full px-7 py-7 flex items-center justify-between bg-brand-gradient text-white hover:opacity-95 transition-opacity"
       >
         <div className="text-left">
-          <div className="flex items-center gap-1.5 mb-1">
-            <Sparkles size={12} className="text-champagne-200" />
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles size={13} className="text-champagne-200" />
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/85">Total estimado</p>
           </div>
-          <p className="font-display text-4xl font-semibold leading-none">
+          <p className="font-display text-5xl font-semibold leading-none">
             ${totalPrice.toFixed(0)}
-            <span className="text-sm font-normal text-white/80 ml-1.5">MXN</span>
+            <span className="text-base font-normal text-white/80 ml-2">MXN</span>
           </p>
         </div>
-        <ChevronUp size={18} className={`text-white/80 transition-transform ${open ? '' : 'rotate-180'}`} />
+        <ChevronUp size={20} className={`text-white/80 transition-transform ${open ? '' : 'rotate-180'}`} />
       </button>
 
       {open && (
-        <div className="px-6 py-5 space-y-5 max-h-[60vh] lg:max-h-none overflow-y-auto">
+        <div className="px-7 py-7 space-y-7 max-h-[60vh] lg:max-h-none overflow-y-auto">
           {/* Breakdown */}
           {items.length > 0 ? (
             <div>
-              <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-3">Desglose</p>
-              <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+              <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-4">Desglose</p>
+              <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
                 {items.map((item, i) => (
-                  <div key={i} className="flex justify-between text-sm gap-3 py-1.5 border-b border-lav-50 last:border-0">
+                  <div key={i} className="flex justify-between text-sm gap-4 py-2 border-b border-lav-50 last:border-0">
                     <span className="text-warm-600 leading-snug">{item.label}</span>
                     <span className="font-semibold text-warm-800 flex-shrink-0">${item.price.toFixed(0)}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-3 pt-3 border-t border-lav-200 flex justify-between text-sm font-bold">
+              <div className="mt-4 pt-4 border-t border-lav-200 flex justify-between text-sm font-bold">
                 <span className="text-warm-700">Total</span>
                 <span className="text-mauve-700">${totalPrice.toFixed(0)} MXN</span>
               </div>
             </div>
           ) : (
-            <div className="text-center py-4 px-2 bg-lav-50/60 rounded-2xl border border-dashed border-lav-200">
-              <p className="text-xs text-warm-400 leading-relaxed">
+            <div className="text-center py-6 px-4 bg-lav-50/60 rounded-2xl border border-dashed border-lav-200">
+              <p className="text-sm text-warm-400 leading-relaxed">
                 Selecciona un servicio para comenzar tu cotización
               </p>
             </div>
@@ -80,8 +80,8 @@ export function QuoteSummary() {
 
           {/* Client */}
           <div>
-            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-3">Datos del cliente</p>
-            <div className="space-y-2">
+            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-4">Datos del cliente</p>
+            <div className="space-y-3">
               {[
                 { type: 'text',  ph: 'Nombre completo',    f: 'name',  v: clientInfo.name },
                 { type: 'email', ph: 'Correo electrónico', f: 'email', v: clientInfo.email },
@@ -93,19 +93,19 @@ export function QuoteSummary() {
                   placeholder={ph}
                   value={v}
                   onChange={(e) => setClientInfo({ [f]: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-lav-50/70 border border-lav-200 text-warm-800 placeholder-warm-400 text-sm focus:outline-none focus:ring-2 focus:ring-mauve-300 focus:border-transparent transition-all"
+                  className="w-full px-5 py-3 rounded-xl bg-lav-50/70 border border-lav-200 text-warm-800 placeholder-warm-400 text-sm focus:outline-none focus:ring-2 focus:ring-mauve-300 focus:border-transparent transition-all"
                 />
               ))}
             </div>
           </div>
 
           {/* Buttons */}
-          <div className="space-y-2 pt-1">
+          <div className="space-y-3 pt-2">
             <button
               onClick={handleSave}
-              className="btn-primary w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold"
+              className="btn-primary w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold"
             >
-              <Save size={15} /> Guardar Cotización
+              <Save size={16} /> Guardar Cotización
             </button>
             <button
               onClick={() => {
@@ -122,15 +122,15 @@ export function QuoteSummary() {
                   date: new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
                 });
               }}
-              className="btn-ghost w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold"
+              className="btn-ghost w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl text-sm font-semibold"
             >
-              <Download size={15} /> Generar PDF
+              <Download size={16} /> Generar PDF
             </button>
             <button
               onClick={handleWA}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold shadow-soft transition-all"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold shadow-soft transition-all"
             >
-              <Share2 size={15} /> Compartir por WhatsApp
+              <Share2 size={16} /> Compartir por WhatsApp
             </button>
           </div>
         </div>

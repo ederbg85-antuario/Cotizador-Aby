@@ -96,7 +96,7 @@ export const CATEGORY_LABELS: Record<Decoration['category'], string> = {
 };
 
 export const SALON_INFO = {
-  name: 'Nails By Cinthia GB',
+  name: 'Cotizador de Aby',
   tagline: 'Belleza en tus manos',
   phone: '',
   email: '',

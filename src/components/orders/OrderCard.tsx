@@ -29,40 +29,40 @@ export default function OrderCard({ order, onConfirm, onCancel, onComplete }: Or
 
   return (
     <div className="bg-white rounded-3xl border border-lav-100 shadow-soft card-lift overflow-hidden">
-      <div className="px-6 pt-6 pb-5">
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-11 h-11 rounded-2xl bg-brand-gradient-soft flex items-center justify-center font-display text-lg text-mauve-700 font-semibold flex-shrink-0">
+      <div className="px-7 pt-7 pb-6">
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-12 h-12 rounded-2xl bg-brand-gradient-soft flex items-center justify-center font-display text-lg text-mauve-700 font-semibold flex-shrink-0">
               {order.quote.clientInfo.name.charAt(0).toUpperCase()}
             </div>
             <div className="min-w-0">
-              <h3 className="font-display text-base text-warm-800 truncate">{order.quote.clientInfo.name}</h3>
-              <p className="text-xs text-warm-500 mt-0.5">{svc}</p>
+              <h3 className="font-display text-lg text-warm-800 truncate">{order.quote.clientInfo.name}</h3>
+              <p className="text-xs text-warm-500 mt-1">{svc}</p>
             </div>
           </div>
-          <span className={`flex-shrink-0 px-2.5 py-1 rounded-full border text-[11px] font-semibold ${cfg.badge}`}>
+          <span className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-semibold ${cfg.badge}`}>
             {cfg.label}
           </span>
         </div>
 
-        <div className="grid grid-cols-3 gap-3 py-4 border-y border-lav-100 mb-4">
+        <div className="grid grid-cols-3 gap-4 py-5 border-y border-lav-100 mb-5">
           {[
             { icon: Calendar, label: "Fecha", value: date },
             { icon: Clock,    label: "Hora",  value: order.scheduledTime },
             { icon: null,     label: "Total", value: `$${order.quote.totalPrice}`, accent: true },
           ].map(({ icon: Icon, label, value, accent }) => (
             <div key={label}>
-              <p className="text-[10px] text-warm-400 mb-1 uppercase tracking-wider font-semibold flex items-center gap-1">
+              <p className="text-[10px] text-warm-400 mb-1.5 uppercase tracking-wider font-semibold flex items-center gap-1">
                 {Icon && <Icon size={10} />} {label}
               </p>
-              <p className={`text-sm font-semibold ${accent ? "text-mauve-700 font-display" : "text-warm-800"}`}>
+              <p className={`text-sm font-semibold ${accent ? "text-mauve-700 font-display text-base" : "text-warm-800"}`}>
                 {value}
               </p>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="flex flex-wrap gap-2.5 mb-4">
           {order.status === "pendiente" && (<>
             <button
               onClick={() => onConfirm?.(order.id)}
@@ -103,7 +103,7 @@ export default function OrderCard({ order, onConfirm, onCancel, onComplete }: Or
 
         <button
           onClick={() => setExpanded(!expanded)}
-          className="w-full flex items-center justify-center gap-1.5 text-warm-400 hover:text-mauve-700 text-xs font-medium py-1 transition-colors"
+          className="w-full flex items-center justify-center gap-1.5 text-warm-400 hover:text-mauve-700 text-xs font-medium py-1.5 transition-colors"
         >
           {expanded ? "Ocultar detalles" : "Ver detalles"}
           <ChevronDown size={13} className={`transition-transform ${expanded ? "rotate-180" : ""}`} />
@@ -111,19 +111,19 @@ export default function OrderCard({ order, onConfirm, onCancel, onComplete }: Or
       </div>
 
       {expanded && (
-        <div className="border-t border-lav-100 px-6 py-5 bg-lav-50/40 space-y-4 animate-fade-in-up">
+        <div className="border-t border-lav-100 px-7 py-6 bg-lav-50/40 space-y-5 animate-fade-in-up">
           <div>
-            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-2 flex items-center gap-1.5">
+            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-3 flex items-center gap-1.5">
               <User size={10} /> Cliente
             </p>
-            <div className="space-y-1 text-sm text-warm-600">
+            <div className="space-y-1.5 text-sm text-warm-600">
               <p><span className="font-semibold text-warm-700">Email:</span> {order.quote.clientInfo.email}</p>
               <p><span className="font-semibold text-warm-700">Teléfono:</span> {order.quote.clientInfo.phone}</p>
             </div>
           </div>
           <div>
-            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-2">Servicio</p>
-            <div className="pl-3 border-l-2 border-mauve-300 space-y-1 text-sm text-warm-600">
+            <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.15em] mb-3">Servicio</p>
+            <div className="pl-4 border-l-2 border-mauve-300 space-y-1.5 text-sm text-warm-600">
               <p><span className="font-semibold text-warm-700">Tipo:</span> {svc}</p>
               {order.quote.nailLength && <p><span className="font-semibold text-warm-700">Largo:</span> {order.quote.nailLength}</p>}
               {order.quote.decorations.length > 0 && (
@@ -131,9 +131,9 @@ export default function OrderCard({ order, onConfirm, onCancel, onComplete }: Or
               )}
             </div>
           </div>
-          <div className="bg-brand-gradient rounded-2xl px-5 py-3.5 flex justify-between items-center text-white">
+          <div className="bg-brand-gradient rounded-2xl px-6 py-4 flex justify-between items-center text-white">
             <span className="text-xs font-semibold uppercase tracking-[0.1em] text-white/85">Total</span>
-            <span className="font-display text-xl font-semibold">${order.quote.totalPrice} <span className="text-xs font-sans font-normal text-white/80">MXN</span></span>
+            <span className="font-display text-2xl font-semibold">${order.quote.totalPrice} <span className="text-xs font-sans font-normal text-white/80">MXN</span></span>
           </div>
         </div>
       )}

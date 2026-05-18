@@ -30,37 +30,37 @@ export default function RegisterForm() {
   };
 
   const baseInput = "w-full py-3.5 bg-lav-50/70 border border-lav-200 rounded-2xl text-warm-800 text-sm placeholder-warm-400 focus:outline-none focus:ring-2 focus:ring-mauve-300 focus:border-transparent transition-all";
-  const labelClass = "block text-[11px] font-semibold text-warm-500 uppercase tracking-[0.15em] mb-2";
+  const labelClass = "block text-[11px] font-semibold text-warm-500 uppercase tracking-[0.15em] mb-2.5";
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <div className="text-center mb-8">
-        <div className="w-16 h-16 mx-auto mb-5 bg-brand-gradient rounded-3xl flex items-center justify-center shadow-petal-lg">
-          <span className="font-display italic text-white text-3xl font-bold">N</span>
+    <div className="w-full">
+      <div className="text-center mb-10">
+        <div className="w-20 h-20 mx-auto mb-6 bg-brand-gradient rounded-3xl flex items-center justify-center shadow-petal-lg">
+          <span className="font-display italic text-white text-4xl font-bold">A</span>
         </div>
-        <h1 className="font-display text-3xl text-warm-800 tracking-tight">
-          Nails by <span className="italic text-brand-gradient">Cinthia</span>
+        <h1 className="font-display text-3xl md:text-4xl text-warm-800 tracking-tight">
+          Cotizador de <span className="italic text-brand-gradient">Aby</span>
         </h1>
-        <p className="text-xs text-warm-400 mt-2 tracking-[0.18em] uppercase">Panel de administración</p>
+        <p className="text-xs text-warm-400 mt-3 tracking-[0.18em] uppercase">Panel de administración</p>
       </div>
 
-      <div className="bg-white rounded-3xl border border-lav-100 shadow-petal px-8 py-9">
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-champagne-100 mb-3">
+      <div className="bg-white rounded-3xl border border-lav-100 shadow-petal px-7 sm:px-10 py-10">
+        <div className="text-center mb-7">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-champagne-100 mb-4">
             <Sparkles size={11} className="text-champagne-600" />
             <span className="text-[11px] font-semibold text-champagne-600 tracking-wide">Empieza tu estudio</span>
           </div>
-          <h2 className="font-display text-2xl text-warm-800 mb-1">Crear cuenta</h2>
+          <h2 className="font-display text-2xl text-warm-800 mb-2">Crear cuenta</h2>
           <p className="text-sm text-warm-500">Configuramos tu espacio en segundos</p>
         </div>
 
         {error && (
-          <div className="mb-5 px-4 py-3 bg-red-50 border border-red-200 rounded-2xl">
+          <div className="mb-6 px-5 py-3.5 bg-red-50 border border-red-200 rounded-2xl">
             <p className="text-red-600 text-sm">{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {[
             { id: "name",      label: "Tu nombre",          type: "text",  icon: User,      ph: "María García",      val: formData.name },
             { id: "email",     label: "Correo electrónico", type: "email", icon: Mail,      ph: "tu@email.com",      val: formData.email },
@@ -77,7 +77,7 @@ export default function RegisterForm() {
                   value={val}
                   onChange={handle}
                   placeholder={ph}
-                  className={`${baseInput} pl-11 pr-4`}
+                  className={`${baseInput} pl-12 pr-4`}
                   required
                 />
               </div>
@@ -99,7 +99,7 @@ export default function RegisterForm() {
                   value={val}
                   onChange={handle}
                   placeholder={ph}
-                  className={`${baseInput} pl-11 pr-11`}
+                  className={`${baseInput} pl-12 pr-12`}
                   required
                 />
                 <button
@@ -116,13 +116,13 @@ export default function RegisterForm() {
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary w-full py-3.5 font-semibold text-sm rounded-2xl mt-3 disabled:opacity-60"
+            className="btn-primary w-full py-4 font-semibold text-sm rounded-2xl mt-4 disabled:opacity-60"
           >
             {isLoading ? "Creando cuenta..." : "Crear cuenta"}
           </button>
         </form>
 
-        <div className="relative my-6">
+        <div className="relative my-8">
           <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-lav-200" /></div>
           <div className="relative flex justify-center">
             <span className="px-4 bg-white text-[11px] text-warm-400 font-medium uppercase tracking-wider">o</span>
@@ -137,7 +137,7 @@ export default function RegisterForm() {
         </p>
       </div>
 
-      <p className="text-center text-xs text-warm-400 mt-6">🔒 Tus datos están seguros</p>
+      <p className="text-center text-xs text-warm-400 mt-7">🔒 Tus datos están seguros</p>
     </div>
   );
 }

@@ -13,13 +13,13 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="hidden lg:flex bg-white/60 backdrop-blur-sm sticky top-18 left-0 h-[calc(100vh-4.5rem)] w-64 flex-col border-r border-lav-100/70">
-      <div className="px-6 py-6 border-b border-lav-100/70">
+    <aside className="hidden lg:flex bg-white/60 backdrop-blur-sm sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 flex-col border-r border-lav-100/60">
+      <div className="px-7 py-7 border-b border-lav-100/60">
         <p className="text-[11px] font-bold text-warm-400 uppercase tracking-[0.18em]">Navegación</p>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-3 py-4">
-        <div className="flex flex-col gap-1">
+      <nav className="flex-1 overflow-y-auto px-4 py-6">
+        <div className="flex flex-col gap-1.5">
           {navItems.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
@@ -30,18 +30,18 @@ export default function Sidebar() {
                   : "text-warm-600 hover:bg-lav-100/60 hover:text-mauve-700"
               }`}
             >
-              <Icon size={15} />
+              <Icon size={16} />
               {label}
             </Link>
           ))}
         </div>
       </nav>
 
-      <div className="border-t border-lav-100/70 px-6 py-5">
+      <div className="border-t border-lav-100/60 px-7 py-6">
         <p className="font-display text-sm text-warm-500 leading-tight">
-          Nails by <span className="italic text-mauve-700">Cinthia</span>
+          Cotizador de <span className="italic text-mauve-700">Aby</span>
         </p>
-        <p className="text-[10px] text-warm-400 mt-0.5 tracking-wider uppercase">Estudio profesional</p>
+        <p className="text-[10px] text-warm-400 mt-1 tracking-wider uppercase">Estudio profesional</p>
       </div>
     </aside>
   );

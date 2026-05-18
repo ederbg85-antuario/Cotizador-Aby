@@ -13,8 +13,8 @@ export default function PedidosPage() {
       <div className="flex flex-1">
         <Sidebar />
 
-        <main className="flex-1 p-5 md:p-8 lg:p-12 pb-24 lg:pb-12">
-          <div className="max-w-6xl mx-auto">
+        <main className="flex-1 pb-24 lg:pb-16">
+          <div className="container-app py-10 md:py-14 lg:py-16">
             <OrdersPanel />
           </div>
         </main>

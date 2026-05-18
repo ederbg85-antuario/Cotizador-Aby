@@ -7,15 +7,15 @@ import { Menu, X, Calculator, CalendarDays, User } from "lucide-react";
 
 function Logo({ size = "md" }: { size?: "sm" | "md" }) {
   return (
-    <div className="flex items-center gap-2.5">
-      <div className={`${size === "md" ? "w-9 h-9" : "w-8 h-8"} rounded-xl bg-brand-gradient flex items-center justify-center shadow-petal`}>
-        <span className="font-display italic text-white text-base font-bold">N</span>
+    <div className="flex items-center gap-3">
+      <div className={`${size === "md" ? "w-11 h-11" : "w-10 h-10"} rounded-2xl bg-brand-gradient flex items-center justify-center shadow-petal`}>
+        <span className="font-display italic text-white text-lg font-bold">A</span>
       </div>
       <div className="leading-none">
-        <p className={`font-display ${size === "md" ? "text-lg" : "text-base"} text-warm-800 font-semibold tracking-tight`}>
-          Nails by <span className="italic text-mauve-700">Cinthia</span>
+        <p className={`font-display ${size === "md" ? "text-xl" : "text-lg"} text-warm-800 font-semibold tracking-tight`}>
+          Cotizador de <span className="italic text-mauve-700">Aby</span>
         </p>
-        <p className="text-[10px] text-warm-400 font-medium tracking-[0.18em] uppercase mt-0.5">Estudio de uñas</p>
+        <p className="text-[10px] text-warm-400 font-medium tracking-[0.18em] uppercase mt-1">Servicios de manicura</p>
       </div>
     </div>
   );
@@ -36,54 +36,60 @@ export default function Navbar() {
   return (
     <>
       {/* Desktop */}
-      <nav className="hidden md:flex glass sticky top-0 z-40 h-18 items-center border-b border-lav-100/70 px-8 lg:px-16 py-3">
-        <Link href="/" className="flex-1">
-          <Logo />
-        </Link>
-        <div className="flex items-center gap-1">
-          {navItems.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                isActive(href)
-                  ? "bg-brand-gradient text-white shadow-petal"
-                  : "text-warm-600 hover:text-mauve-700 hover:bg-lav-100/60"
-              }`}
-            >
-              <Icon size={15} />
-              {label}
-            </Link>
-          ))}
-        </div>
-      </nav>
-
-      {/* Mobile */}
-      <nav className="md:hidden glass sticky top-0 z-50 h-16 flex items-center justify-between px-5 border-b border-lav-100/70">
-        <Link href="/">
-          <Logo size="sm" />
-        </Link>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-10 h-10 flex items-center justify-center rounded-xl text-warm-600 hover:bg-lav-100/60"
-        >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-
-        {isOpen && (
-          <div className="absolute top-16 left-0 right-0 bg-white border-b border-lav-100 shadow-petal-lg rounded-b-3xl overflow-hidden animate-fade-in-up">
+      <nav className="hidden md:block glass sticky top-0 z-40 border-b border-lav-100/60">
+        <div className="container-app flex items-center h-20">
+          <Link href="/" className="flex-1">
+            <Logo />
+          </Link>
+          <div className="flex items-center gap-2">
             {navItems.map(({ href, label, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
-                onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 px-6 py-4 text-sm font-medium border-b border-lav-50 last:border-0 ${
-                  isActive(href) ? "bg-brand-gradient text-white" : "text-warm-700 hover:bg-lav-50"
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  isActive(href)
+                    ? "bg-brand-gradient text-white shadow-petal"
+                    : "text-warm-600 hover:text-mauve-700 hover:bg-lav-100/60"
                 }`}
               >
-                <Icon size={16} /> {label}
+                <Icon size={16} />
+                {label}
               </Link>
             ))}
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile */}
+      <nav className="md:hidden glass sticky top-0 z-50 border-b border-lav-100/60">
+        <div className="container-app flex items-center justify-between h-16">
+          <Link href="/">
+            <Logo size="sm" />
+          </Link>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-11 h-11 flex items-center justify-center rounded-xl text-warm-600 hover:bg-lav-100/60"
+          >
+            {isOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        {isOpen && (
+          <div className="absolute top-16 left-0 right-0 bg-white border-b border-lav-100 shadow-petal-lg overflow-hidden animate-fade-in-up">
+            <div className="container-app py-2">
+              {navItems.map(({ href, label, icon: Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center gap-3 px-5 py-4 my-1 rounded-xl text-sm font-medium ${
+                    isActive(href) ? "bg-brand-gradient text-white" : "text-warm-700 hover:bg-lav-50"
+                  }`}
+                >
+                  <Icon size={16} /> {label}
+                </Link>
+              ))}
+            </div>
           </div>
         )}
       </nav>

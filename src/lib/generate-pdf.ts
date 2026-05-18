@@ -60,7 +60,7 @@ export function generateQuotePDF(data: PDFQuoteData): jsPDF {
   pdf.setFontSize(28);
   pdf.setFont('helvetica', 'bold');
   setColor(pdf, 'darkPink');
-  pdf.text('Nails By Cinthia GB', pageWidth / 2, 20, { align: 'center' });
+  pdf.text('Cotizador de Aby', pageWidth / 2, 20, { align: 'center' });
 
   // Subtitle
   pdf.setFontSize(12);
@@ -277,9 +277,9 @@ export function generateQuotePDF(data: PDFQuoteData): jsPDF {
   setColor(pdf, 'lightText');
   pdf.setFontSize(8);
   pdf.setFont('helvetica', 'normal');
-  pdf.text('Nails By Cinthia GB', pageWidth / 2, yPosition, { align: 'center' });
+  pdf.text('Cotizador de Aby', pageWidth / 2, yPosition, { align: 'center' });
   yPosition += 3.5;
-  pdf.text('Instagram: @nailsbycinthiagb', pageWidth / 2, yPosition, { align: 'center' });
+  pdf.text('Cotización profesional', pageWidth / 2, yPosition, { align: 'center' });
 
   yPosition += 5;
 
